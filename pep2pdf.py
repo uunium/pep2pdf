@@ -15,3 +15,10 @@ Contains:
     pep2pdf(PEP_number, pdf_file="") - main function. Dowloads the PEP with
         number PEP_number and converts it to PDF file named pdf_file
 """
+
+import sys
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print "Not enough arguments"
+        print __doc__
