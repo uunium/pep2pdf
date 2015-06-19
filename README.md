@@ -1,2 +1,2 @@
 # pep2pdf
-A small Python script which downloads the latest PEPs and converts it to PDF
+A small Python script for downloading the latest PEPs and converting it to PDF
