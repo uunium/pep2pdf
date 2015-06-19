@@ -18,6 +18,17 @@ Contains:
 
 import sys
 
+def pep2pdf(PEP_number, pdf_file=""):
+    """
+    Downloads the PEP with given number from official PEP Mercurial
+    repository and converts it to PDF
+
+    :param PEP_number: (str, int) - number of PEP. For instance: "8",
+    :param pdf_file: (str) - name of generated file. If not specified,
+        will be formed like "PEP0257.pdf".
+    :return: None
+    """
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print "Not enough arguments"
