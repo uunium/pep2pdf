@@ -8,6 +8,9 @@
 """
 pep2pdf.py - module for downloading the latest PEPs and converting it to PDF
 
+Usage:
+    python pep2pdf.py PEP_number [pdf_file]
+
 Contains:
     pep2pdf(PEP_number, pdf_file="") - main function. Dowloads the PEP with
         number PEP_number and converts it to PDF file named pdf_file
