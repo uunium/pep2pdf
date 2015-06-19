@@ -20,7 +20,7 @@ import sys
 
 def pep2pdf(PEP_number, pdf_file=""):
     """
-    Downloads the PEP with given number from official PEP Mercurial
+    Downloads the PEP with given number from official Mercurial
     repository and converts it to PDF
 
     :param PEP_number: (str, int) - number of PEP. For instance: "8",
@@ -28,6 +28,9 @@ def pep2pdf(PEP_number, pdf_file=""):
         will be formed like "PEP0257.pdf".
     :return: None
     """
+
+def _get_source_filename(PEP_number):
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
