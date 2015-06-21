@@ -27,10 +27,12 @@ def pep2pdf(PEP_number, pdf_filename=""):
     :param PEP_number: (str, int) - number of PEP. For instance: "8", 257
     :param pdf_filename: (str) - full name of generated file. If not specified,
         will be formed like "PEP-0257.pdf".
-    :return: None
+    :return: bool. True - if PEP is downloaded and converted successfully,
+        False - otherwise.
     """
 
     source_file = _get_source_file(PEP_number)
+    return True
 
 def _get_source_file(PEP_number):
     filename = _get_source_filename(PEP_number)
