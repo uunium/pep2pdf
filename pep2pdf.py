@@ -32,12 +32,23 @@ def pep2pdf(PEP_number, pdf_filename=""):
     """
 
     source_file = _get_source_file(PEP_number)
-    return True
+    if source_file is None:
+        return False
+    else:
+        return True
 
 def _get_source_file(PEP_number):
     filename = _get_source_filename(PEP_number)
     head = _get_head()
-    print head
+    if head is None:
+        return None
+    url = "https://hg.python.org/peps/raw-file/" + head + "/" + filename
+    try:
+        response = urllib2.urlopen(url)
+        return response
+    except:
+        print "Can't download PEP file from " + url
+        return None
 
 def _get_source_filename(PEP_number):
     PEP_num_str = str(PEP_number) # Can be int
@@ -52,6 +63,7 @@ def _get_head():
         response = urllib2.urlopen(url)
         data = response.read()
     except:
+        print "Can't get heads of PEP Mercurial repository"
         return None
     heads = data.split(" ")
     if len(heads) > 0:
