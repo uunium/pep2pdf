@@ -35,6 +35,8 @@ def pep2pdf(PEP_number, pdf_filename=""):
     if source_file is None:
         return False
     else:
+        data = source_file.read()
+        print data
         return True
 
 def _get_source_file(PEP_number):
@@ -43,6 +45,7 @@ def _get_source_file(PEP_number):
     if head is None:
         return None
     url = "https://hg.python.org/peps/raw-file/" + head + "/" + filename
+    print "Getting source file from " + url + "..."
     try:
         response = urllib2.urlopen(url)
         return response
@@ -59,13 +62,14 @@ def _get_source_filename(PEP_number):
 def _get_head():
     # See https://mercurial.selenic.com/wiki/HttpCommandProtocol
     url = "https://hg.python.org/peps/?cmd=heads"
+    print "Getting repository head from " + url + "..."
     try:
         response = urllib2.urlopen(url)
         data = response.read()
     except:
-        print "Can't get heads of PEP Mercurial repository"
+        print "Can't get heads from " + url
         return None
-    heads = data.split(" ")
+    heads = data.split()
     if len(heads) > 0:
         return heads[0]
     else:
