@@ -3,8 +3,7 @@ A small Python script for downloading the latest PEPs and converting it to PDF
 
 ##Requirements:
 
-docutils [https://pypi.python.org/pypi/docutils](https://pypi.python.org/pypi/docutils)  
-or  
+docutils [https://pypi.python.org/pypi/docutils](https://pypi.python.org/pypi/docutils)    
 `pip install docutils`
 
 ##Usage:
