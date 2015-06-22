@@ -18,6 +18,7 @@ Contains:
 
 import sys
 import urllib2
+import docutils.core
 
 def pep2pdf(PEP_number, pdf_filename=""):
     """
@@ -34,10 +35,9 @@ def pep2pdf(PEP_number, pdf_filename=""):
     source_file = _get_source_file(PEP_number)
     if source_file is None:
         return False
-    else:
-        data = source_file.read()
-        print data
-        return True
+    html = docutils.core.publish_file(source=source_file,reader_name="pep",writer_name="pep_html")
+    print html
+    return True
 
 def _get_source_file(PEP_number):
     filename = _get_source_filename(PEP_number)
