@@ -41,6 +41,7 @@ def pep2pdf(PEP_number, pdf_filename=""):
         return False
 
     # Converting PEP file to html
+    print "Converting PEP file to html..."
     html = tempfile.NamedTemporaryFile(delete=False)
     docutils.core.publish_file(source=source_file,
                                 reader_name="pep",
@@ -48,6 +49,7 @@ def pep2pdf(PEP_number, pdf_filename=""):
                                 destination=html)
 
     # Converting html to pdf
+    print "Converting html to pdf..."
     if not pdf_filename:
         pdf_filename = source_filename.replace(".txt", ".pdf")
     pisa.CreatePDF(
