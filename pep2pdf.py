@@ -20,6 +20,7 @@ import sys
 import urllib2
 import tempfile
 import docutils.core
+import xhtml2pdf.pisa as pisa
 
 def pep2pdf(PEP_number, pdf_filename=""):
     """
@@ -33,20 +34,29 @@ def pep2pdf(PEP_number, pdf_filename=""):
         False - otherwise.
     """
 
-    source_file = _get_source_file(PEP_number)
+    # Getting the latest PEP file from Mercurial repository
+    source_filename = _get_source_filename(PEP_number)
+    source_file = _get_source_file(source_filename)
     if source_file is None:
         return False
-    destination = tempfile.NamedTemporaryFile(delete=False)
+
+    # Converting PEP file to html
+    html = tempfile.NamedTemporaryFile(delete=False)
     docutils.core.publish_file(source=source_file,
-                                      reader_name="pep",
-                                      writer_name="pep_html",
-                                      destination=destination)
-    # dest_file = open(destination.name)
-    # print dest_file.read()
+                                reader_name="pep",
+                                writer_name="pep_html",
+                                destination=html)
+
+    # Converting html to pdf
+    if not pdf_filename:
+        pdf_filename = source_filename.replace(".txt", ".pdf")
+    pisa.CreatePDF(
+        file(html.name, "r"),
+        file(pdf_filename, "wb")
+        )
     return True
 
-def _get_source_file(PEP_number):
-    filename = _get_source_filename(PEP_number)
+def _get_source_file(filename):
     head = _get_head()
     if head is None:
         return None
