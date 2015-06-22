@@ -22,6 +22,7 @@ import tempfile
 import docutils.core
 import xhtml2pdf.pisa as pisa
 
+
 def pep2pdf(PEP_number, pdf_filename=""):
     """
     Downloads the PEP with given number from the official PEPs Mercurial
@@ -43,10 +44,9 @@ def pep2pdf(PEP_number, pdf_filename=""):
     # Converting PEP file to html
     print "Converting PEP file to html..."
     html = tempfile.NamedTemporaryFile(delete=False)
-    docutils.core.publish_file(source=source_file,
-                                reader_name="pep",
-                                writer_name="pep_html",
-                                destination=html)
+    docutils.core.publish_file(
+        source=source_file, reader_name="pep",
+        writer_name="pep_html", destination=html)
 
     # Converting html to pdf
     print "Converting html to pdf..."
@@ -57,6 +57,7 @@ def pep2pdf(PEP_number, pdf_filename=""):
         file(pdf_filename, "wb")
         )
     return True
+
 
 def _get_source_file(filename):
     head = _get_head()
@@ -71,11 +72,13 @@ def _get_source_file(filename):
         print "Can't download PEP file from " + url
         return None
 
+
 def _get_source_filename(PEP_number):
-    PEP_num_str = str(PEP_number) # Can be int
+    PEP_num_str = str(PEP_number)  # Can be int
     PEP_num_str = "0000" + PEP_num_str
     PEP_num_str = "pep-" + PEP_num_str[-4:] + ".txt"
     return PEP_num_str
+
 
 def _get_head():
     # See https://mercurial.selenic.com/wiki/HttpCommandProtocol
