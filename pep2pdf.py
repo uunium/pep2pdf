@@ -42,30 +42,30 @@ def pep2pdf(PEP_number, pdf_filename=""):
         return False
 
     # Converting PEP file to html
-    print "Converting PEP file to html..."
+    print("Converting PEP file to html...")
     html = tempfile.NamedTemporaryFile(delete=False)
     try:
         docutils.core.publish_file(
-            source=source_file, reader_name="pep",
-            writer_name="pep_html", destination=html)
+            source=source_file,
+            reader_name="pep",
+            writer_name="pep_html",
+            destination=html,
+        )
     except:
-        print "Can't convert {0} to html!".format(source_filename)
+        print("Can't convert {0} to html!".format(source_filename))
         return False
 
     # Converting html to pdf
-    print "Converting html to pdf..."
+    print("Converting html to pdf...")
     if not pdf_filename:
         pdf_filename = source_filename.replace(".txt", ".pdf")
     try:
-        pisa.CreatePDF(
-            file(html.name, "r"),
-            file(pdf_filename, "wb")
-            )
+        pisa.CreatePDF(file(html.name, "r"), file(pdf_filename, "wb"))
     except:
         message = "Can't convert PEP {0} to pdf!".format(PEP_number)
-        print message
+        print(message)
         return False
-    print pdf_filename + " is successfully generated."
+    print(pdf_filename + " is successfully generated.")
     return True
 
 
@@ -74,12 +74,12 @@ def _get_source_file(filename):
     if head is None:
         return None
     url = "https://hg.python.org/peps/raw-file/" + head + "/" + filename
-    print "Getting source file from " + url + "..."
+    print("Getting source file from " + url + "...")
     try:
         response = urllib2.urlopen(url)
         return response
     except:
-        print "Can't download PEP file from " + url
+        print("Can't download PEP file from " + url)
         return None
 
 
@@ -93,12 +93,12 @@ def _get_source_filename(PEP_number):
 def _get_head():
     # See https://mercurial.selenic.com/wiki/HttpCommandProtocol
     url = "https://hg.python.org/peps/?cmd=heads"
-    print "Getting repository head from " + url + "..."
+    print("Getting repository head from " + url + "...")
     try:
         response = urllib2.urlopen(url)
         data = response.read()
     except:
-        print "Can't get heads from " + url
+        print("Can't get heads from " + url)
         return None
     heads = data.split()
     if len(heads) > 0:
@@ -106,10 +106,11 @@ def _get_head():
     else:
         return None
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print "Not enough arguments"
-        print __doc__
+        print("Not enough arguments")
+        print(__doc__)
     else:
         PEP_number = sys.argv[1]
         pdf_filename = ""

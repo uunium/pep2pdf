@@ -19,22 +19,23 @@ import sys
 from pep2pdf import pep2pdf as pep2pdf
 import os
 
+
 def import_peps(min_number, max_number, output_directory):
     num = 0
     for i in range(min_number, max_number + 1):
         filename = "pep-" + ("0000" + str(i))[-4:] + ".pdf"
-        print "Importing " + filename + "..."
+        print("Importing " + filename + "...")
         file_path = os.path.join(output_directory, filename)
         result = pep2pdf(i, file_path)
         if result:
             num += 1
     message = "Succesfully imported {0} files".format(num)
-    print message
+    print(message)
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print "Not enough arguments"
+        print("Not enough arguments")
         print(__doc__)
     else:
         min_number = int(sys.argv[1])
