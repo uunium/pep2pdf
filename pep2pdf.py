@@ -17,7 +17,7 @@ Contains:
 """
 
 import sys
-import urllib2
+import urllib.request as urllib
 import tempfile
 import docutils.core
 import xhtml2pdf.pisa as pisa
@@ -76,7 +76,7 @@ def _get_source_file(filename):
     url = "https://hg.python.org/peps/raw-file/" + head + "/" + filename
     print("Getting source file from " + url + "...")
     try:
-        response = urllib2.urlopen(url)
+        response = urllib.urlopen(url)
         return response
     except:
         print("Can't download PEP file from " + url)
@@ -95,7 +95,7 @@ def _get_head():
     url = "https://hg.python.org/peps/?cmd=heads"
     print("Getting repository head from " + url + "...")
     try:
-        response = urllib2.urlopen(url)
+        response = urllib.urlopen(url)
         data = response.read()
     except:
         print("Can't get heads from " + url)
