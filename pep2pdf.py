@@ -21,6 +21,7 @@ import urllib.request as urllib
 import tempfile
 import docutils.core
 import xhtml2pdf.pisa as pisa
+import io
 
 
 def pep2pdf(PEP_number, pdf_filename=""):
@@ -43,9 +44,10 @@ def pep2pdf(PEP_number, pdf_filename=""):
 
     # Converting PEP file to html
     print("Converting PEP file to html...")
+    # Create tempfile to store info from docutils.publish_file
     html = tempfile.NamedTemporaryFile(delete=False)
     try:
-        docutils.core.publish_file(
+        doc_str = docutils.core.publish_file(
             source=source_file,
             reader_name="pep",
             writer_name="pep_html",
@@ -60,7 +62,8 @@ def pep2pdf(PEP_number, pdf_filename=""):
     if not pdf_filename:
         pdf_filename = source_filename.replace(".txt", ".pdf")
     try:
-        pisa.CreatePDF(file(html.name, "r"), file(pdf_filename, "wb"))
+        with open(pdf_filename, "w+b") as result_file:
+            pisa.CreatePDF(doc_str, result_file, encoding="utf-8")
     except:
         message = "Can't convert PEP {0} to pdf!".format(PEP_number)
         print(message)
@@ -73,11 +76,12 @@ def _get_source_file(filename):
     head = _get_head()
     if head is None:
         return None
-    url = "https://hg.python.org/peps/raw-file/" + head + "/" + filename
+    url = f"https://hg.python.org/peps/raw-file/{head}/{filename}"
     print("Getting source file from " + url + "...")
     try:
-        response = urllib.urlopen(url)
-        return response
+        response = urllib.urlopen(url).read().decode("utf-8")
+        # Using StringIO to return file-like object
+        return io.StringIO(response)
     except:
         print("Can't download PEP file from " + url)
         return None
@@ -95,8 +99,8 @@ def _get_head():
     url = "https://hg.python.org/peps/?cmd=heads"
     print("Getting repository head from " + url + "...")
     try:
-        response = urllib.urlopen(url)
-        data = response.read()
+        response = urllib.urlopen(url).read()
+        data = response.decode("utf-8")
     except:
         print("Can't get heads from " + url)
         return None
